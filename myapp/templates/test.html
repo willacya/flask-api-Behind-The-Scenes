@@ -47,13 +47,11 @@ body {
   
 <nav class="navbar navbar-dark bg-dark justify-content-between">
     <a class="navbar-brand" href="https://github.com/willacya">
-      
-      
-    <img src="static/img/nav_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    <img src="/static/img/nav_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
     Behind The Scenes
   </a>
-  <form class="form-inline" action='' method='POST'>
-    <input class="form-control mr-sm-2" type="search" placeholder="Enter Name" aria-label="Search" id='name' name='name'>
+  <form class="form-inline" method="POST">
+    <input class="form-control mr-sm-2" type="search" placeholder="Enter Name" aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
   </form>
 </nav>
@@ -87,10 +85,10 @@ body {
 <div class="col-3" id="right">
    {% for key,value in df.iterrows() %}
     <div class='clearfix p-2'>
-      {% if value['pic'] != 'None' %}
-      <img class="float-left mr-2" src="https://image.tmdb.org/t/p/w200/{{ value['pic'] }}" width=70 />
-      {% else %}
+      {% if value['pic'] == 'None' %}
       <img class="float-left mr-2" src="http://via.placeholder.com/200x300" width=70 />
+      {% else %}
+      <img class="float-left mr-2" src="https://image.tmdb.org/t/p/w200/{{ value['pic'] }}" width=70 />
       {% endif %}
           {{ value['name'] }}
           <br>{{ df[df.name == value['name']]['job'].values[0] }}

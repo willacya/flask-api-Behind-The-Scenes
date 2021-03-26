@@ -8,6 +8,8 @@ key = '4ca6709d173037739e6010f070f89342'
 def get_dfs(main_id):
   response = 'https://api.themoviedb.org/3/person/'+str(main_id)+'?api_key=4ca6709d173037739e6010f070f89342&append_to_response=credits'
   r = requests.get(response).json()
+    
+  pic = r['profile_path']
 
   id = []
   title = []
@@ -137,13 +139,15 @@ def get_dfs(main_id):
   graph_one.append(
     px.line(df, x='film', y='count', color='name')
       .for_each_trace(lambda t: t.update(name=t.name.replace("name=","")))
-      .update_layout(autosize=False, width=800, height=600,)
+      .update_layout(autosize=False, width=950, height=600, paper_bgcolor='rgba(0,0,0,0)',
+                      plot_bgcolor='rgba(0,0,0,0)',)
   )
 
 
   layout_one = dict(title = 'Chart One',
-              xaxis = dict(title = 'x-axis label'),
-              yaxis = dict(title = 'y-axis label'),
+              xaxis = dict(title = 'Films ordered by release date'),
+              yaxis = dict(title = 'No. films'), paper_bgcolor='rgba(0,0,0,0)',
+              plot_bgcolor='rgba(0,0,0,0)',
               )
 
   figures = []
@@ -154,7 +158,7 @@ def get_dfs(main_id):
   df = top_colleagues.head(10).merge(name_df.drop_duplicates(subset=['name_id']), how='left', on='name_id')[['No_films','name_id','name','pic']]\
   .merge(common_role, how='left',on='name_id')
 
-  return figures, df
+  return figures, df, pic
 
 
 def name_search(name):
@@ -166,7 +170,7 @@ def name_search(name):
   films_list = []
   ids = []
   names = []
-
+  
   for i in a['results']:
     ids.append(i['id'])
     names.append(i['name'])

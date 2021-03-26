@@ -1,0 +1,23 @@
+body, html {
+  margin: 0;
+  overflow: hidden;
+  height:100%;
+}
+
+#left {
+  height:100%;
+  position: absolute;
+  top: 0px;
+  bottom: 0;
+  left: 0;
+  overflow-y: scroll; 
+}
+
+#right {
+  height:100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: scroll;
+}
