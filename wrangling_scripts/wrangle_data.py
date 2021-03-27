@@ -9,7 +9,7 @@ def get_dfs(main_id):
   response = 'https://api.themoviedb.org/3/person/'+str(main_id)+'?api_key=4ca6709d173037739e6010f070f89342&append_to_response=credits'
   r = requests.get(response).json()
     
-  pic = r['profile_path']
+  picture = r['profile_path']
 
   id = []
   title = []
@@ -129,12 +129,17 @@ def get_dfs(main_id):
   count_df = count_df[(~count_df['release_date'].isnull()) & (count_df['release_date'] != "" )].sort_values(by='release_date')
   count_df = count_df.set_index('film_id')
   count_df = count_df.drop(['id','release_date'], axis=1)
+
+  
+
   count_df = count_df[top_colleagues['name_id'].values[:10]].fillna(0).cumsum().stack().reset_index()
   count_df = count_df.rename(columns={'level_1':'name_id',0:'count'})
   df = count_df
   df['name'] = df['name_id'].map(name_key)
-  df['film'] = df['film_id'].map(movie_key).apply(lambda x: x[:25] + "..." if len(x) >= 25 else x)
+  df['film'] = df['film_id'].map(movie_key) #.apply(lambda x: x[:25] + "..." if len(x) >= 25 else x)
 
+  
+  
   graph_one = []    
   graph_one.append(
     px.line(df, x='film', y='count', color='name')
@@ -153,12 +158,20 @@ def get_dfs(main_id):
   figures = []
   figures.append(dict(data=graph_one, layout=layout_one))
     
-
+  
   common_role = name_df.groupby(['name_id'])['job'].agg(lambda x:x.value_counts().index[0]).to_frame()
-  df = top_colleagues.head(10).merge(name_df.drop_duplicates(subset=['name_id']), how='left', on='name_id')[['No_films','name_id','name','pic']]\
+    
+  film_count_key = dict(df.groupby('name_id')['count'].max())
+    
+  
+  df = top_colleagues.head(30).merge(name_df.drop_duplicates(subset=['name_id']), how='left', on='name_id')[['No_films','name_id','name','pic']]\
   .merge(common_role, how='left',on='name_id')
-
-  return figures, df, pic
+  df['No_films'] = df['name_id'].map(film_count_key)
+  df = df.dropna()
+  df = df.sort_values(by='No_films', ascending=False)
+  df['No_films'] = df['No_films'].astype('int32')
+  
+  return figures, df, picture
 
 
 def name_search(name):

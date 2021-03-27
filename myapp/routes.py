@@ -13,13 +13,13 @@ def index():
         celeb_find = name_search(request.form.get('name'))
         try:
             celeb = celeb_find.iloc[0,1]
-            figures, df, pic = get_dfs(celeb_find.iloc[0,0])
+            figures, df, picture = get_dfs(celeb_find.iloc[0,0])
         except:
-            return redirect("index.html")
+            pass
     
     else:
         celeb = 'Tom Hanks'
-        figures, df, pic = get_dfs(31)
+        figures, df, picture = get_dfs(31)
         
     # plot ids for the html id tag
     ids = ['figure-{}'.format(i) for i, _ in enumerate(figures)]
@@ -34,7 +34,7 @@ def index():
                            figuresJSON=figuresJSON,
                           celeb=celeb,
                           df=df,
-                          pic=pic)
+                          picture=picture)
 
 @app.route('/test', methods=['POST', 'GET'])
 def test():
