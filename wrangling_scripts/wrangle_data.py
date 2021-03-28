@@ -3,23 +3,24 @@ import pandas as pd
 import numpy as np
 import time
 import plotly.express as px
-key = '4ca6709d173037739e6010f070f89342'
+import config
+key = config.API_KEY()
 
 def get_dfs(main_id):
     
-    """
-    Uses TheMovieDB.org's API to pull an actor's filmography and a list of people
-    that have worked with the actor over most of their films
-    
-    Args:
-        main_id (int): Actor's id number found using name_search()
-    
-    Returns:
-        figures: list of plotly graphs (currently just the one graph returned)
-        df: DataFrame of top ten collegues
-        picture: End url of Actor's profile picture. Needs adding to movidDB url path
-        
-    """
+  """
+  Uses TheMovieDB.org's API to pull an actor's filmography and a list of people
+  that have worked with the actor over most of their films
+
+  Args:
+      main_id (int): Actor's id number found using name_search()
+
+  Returns:
+      figures: list of plotly graphs (currently just the one graph returned)
+      df: DataFrame of top ten collegues
+      picture: End url of Actor's profile picture. Needs adding to movidDB url path
+
+  """
   
   # api pull actor's credits
   response = 'https://api.themoviedb.org/3/person/'+str(main_id)+'?api_key=4ca6709d173037739e6010f070f89342&append_to_response=credits'
@@ -229,15 +230,15 @@ def get_dfs(main_id):
 
 def name_search(name):
 
-    """
-    Uses TheMovieDB.org's API find actor id from a name search
+  """
+  Uses TheMovieDB.org's API find actor id from a name search
     
-    Args:
-        name (str): name posted in search bar
+  Args:
+      name (str): name posted in search bar
     
-    Returns:
-        df: dataframe with all names found in search
-    """
+  Returns:
+      df: dataframe with all names found in search
+  """
   
   # seachers api by name
   name = name.replace(" ","%20")
