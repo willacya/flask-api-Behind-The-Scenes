@@ -44,14 +44,15 @@ body {
 
 <body>
   
-  
+<!-- navigation bar -->
 <nav class="navbar navbar-dark bg-dark justify-content-between">
-    <a class="navbar-brand" href="https://github.com/willacya">
-      
-      
-    <img src="static/img/nav_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+  
+  <a class="navbar-brand" href="https://github.com/willacya">
+  <img src="static/img/nav_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
     Behind The Scenes
   </a>
+  
+  <!-- search bar -->
   <form class="form-inline" action='' method='POST'>
     <input class="form-control mr-sm-2" type="search" placeholder="Enter Name" aria-label="Search" id='name' name='name'>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -59,49 +60,53 @@ body {
 </nav>
 
 <div class="row m-3">
-<div class="col-9" id="left">
+  <div class="col-9" id="left">
 
-       <!--chart descriptions-->       
-        <div id="middle-info" class="mt-3">
-          
+    <div id="middle-info" class="mt-3">
+
+      <!-- use image placeholder if api can't find profile pic -->
       {% if picture == None %}
       <img class="float-left mr-2" src="https://via.placeholder.com/200x300" width=120 />
       {% else %}
       <img class="float-left mr-2" src="https://image.tmdb.org/t/p/w200/{{ picture }}" width=120 />
       {% endif %}
 
-            <h2 id="tag-line">{{ celeb }}</h2>
-            <h4 id="tag-line" class="text-muted">The graph shows the top ten people that have worked with {{ celeb }} over their career. Search by Actor by using the search bar above. </h4>
-          <p> This site is kept up-to-date with the Movie Database <a href="https://developers.themoviedb.org/3">API</a> </p>
-            
-        </div>
-        
-    
-
-		<div id="{{ids[0]}}"></div>
+      <!-- website description -->   
+      <h2 id="tag-line">{{ celeb }}</h2>
+      <h4 id="tag-line" class="text-muted">The graph shows the top ten people that have worked with {{ celeb }} over their career. Search by Actor by using the search bar above. </h4>
+      <p> This site is kept up-to-date with the Movie Database <a href="https://developers.themoviedb.org/3">API</a> </p>
 
     </div>
+
+    <!-- renders plotly chart with javascript -->
+    <div id="{{ids[0]}}"></div>
+
+  </div>
   
 
-  
-<div class="col-3" id="right">
-   {% for key, value in df.iterrows() %}
+
+  <div class="col-3" id="right">
+    
+    <!-- iterate through each row in df -->
+    {% for key, value in df.iterrows() %}
     <div class='clearfix p-2'>
+      
+      <!-- use placeholder when api can't find pic url -->
       {% if value['pic'] == None %}
-      	<img class="float-left mr-2" src="https://via.placeholder.com/200x300" width=70 />
+      <img class="float-left mr-2" src="https://via.placeholder.com/200x300" width=70 />
       {% else %}
-      	<img class="float-left mr-2" src="https://image.tmdb.org/t/p/w200/{{ value['pic'] }}" width=70 />
+      <img class="float-left mr-2" src="https://image.tmdb.org/t/p/w200/{{ value['pic'] }}" width=70 />
       {% endif %}
-          {{ value['name'] }}
-          <br>{{ df[df.name == value['name']]['job'].values[0] }}
-          <br>No. Films: {{ df[df.name == value['name']]['No_films'].values[0] }}
-          <br><br>
-      </div>
+      
+      {{ value['name'] }}
+      <br>{{ df[df.name == value['name']]['job'].values[0] }}
+      <br>No. Films: {{ df[df.name == value['name']]['No_films'].values[0] }}
+      <br><br>
+    </div>
     {% endfor %}
 
   </div>
-<div>
-  </div>
+  
   
   
 <!--footer section-->               
@@ -111,7 +116,8 @@ body {
 
 
 <footer>
-
+	
+  	<!-- renders plotly graph from list id (allows to add more graphs if necessary) -->
     <script type="text/javascript">
         // plots the figure with id
         // id much match the div id above in the html
