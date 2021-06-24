@@ -1,5 +1,13 @@
 # Behind The Scenes
 
+<img src="img/Screenshot.png"
+     alt="Tom Hanks Example"
+     style="float: left; margin-right: 10px;" />
+     
+<img src="img/Screenshot2.png"
+     alt="Tom Cruise Example"
+     style="float: left; margin-right: 10px;" />
+     
 This small flask application uses TheMovieDB.org API found her: [https://developers.themoviedb.org/3/getting-started/introduction][api]
 
 The application searches for an actor and pulls all the names of the people that have worked on the films in that actor's filmography.
